@@ -16,13 +16,17 @@ class MaterialTextField: UITextField {
         layer.borderWidth = 1.0
     }
     
-    // For placeholder
+    let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
+    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return self.bounds.insetBy(dx: 10, dy: 0)
+        return UIEdgeInsetsInsetRect(bounds, padding)
     }
-
-    // For editable text
+    
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return UIEdgeInsetsInsetRect(bounds, padding)
+    }
+    
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return self.bounds.insetBy(dx: 10, dy: 0)
+        return UIEdgeInsetsInsetRect(bounds, padding)
     }
 }

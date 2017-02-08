@@ -9,19 +9,30 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Firebase
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var emailField: MaterialTextField!
+    @IBOutlet weak var passwordField: MaterialTextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Used in debugging to unset the logged in user
+        //UserDefaults.standard.removeObject(forKey: KEY_UID)
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        if UserDefaults.standard.value(forKey: KEY_UID) != nil {
+            self.performSegue(withIdentifier: SEGUE_LOGGED_IN, sender: nil)
+        }
     }
-
 
     @IBAction func fbBtnPressed(sender: UIButton!) {
         
@@ -52,18 +63,109 @@ class ViewController: UIViewController {
     }
     
     func getFBUserData(){
+        
         if let accessToken = FBSDKAccessToken.current().tokenString {
             
             print("Successfully logged in with facebook. \(accessToken)")
             
-//            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
-//                if (error == nil){
-//                    self.dict = result as! [String : AnyObject]
-//                    print(result!)
-//                    print(self.dict)
-//                }
-//            })
+            let credential = FIRFacebookAuthProvider.credential(withAccessToken: accessToken)
+            
+            FIRAuth.auth()?.signIn(with: credential) { (user, error) in
+                
+                if error != nil {
+                    print("Login Failed")
+                } else {
+                    print("Logged In! \(user?.uid)")
+                    UserDefaults.standard.set(user?.uid, forKey: KEY_UID)
+                    self.performSegue(withIdentifier: SEGUE_LOGGED_IN, sender: nil)
+                }
+                
+            }
+            
         }
+    }
+    
+    @IBAction func attemptLogin(sender: UIButton) {
+        
+        if let email = emailField.text, email != "", let pwd = passwordField.text, pwd != "" {
+            
+            print("Made it here!")
+            
+            FIRAuth.auth()?.signIn(withEmail: email, password: pwd) { (user, error) in
+                
+                if error != nil {
+                    
+                    print("\(error.debugDescription)")
+                    
+                    //print(FIRAuthErrorNameKey.debugDescription)
+                    //print(FIRAuthErrorNameKey)
+                    
+                    if let errCode = FIRAuthErrorCode(rawValue: error!._code) {
+                        
+                        switch errCode {
+                        case .errorCodeInvalidEmail:
+                            print("invalid email")
+                        case .errorCodeUserNotFound:
+                            print("user not found")
+                            
+                            FIRAuth.auth()?.createUser(withEmail: email, password: pwd) { (user, error) in
+                                
+                                if error != nil {
+
+                                    if let errCode2 = FIRAuthErrorCode(rawValue: error!._code) {
+                                        print(errCode2)
+                                        switch errCode {
+                                            case .errorCodeWeakPassword:
+                                                print("weak password")
+                                            default:
+                                                print("Create User Error: \(error!)")
+                                        }
+                                        
+                                        self.showErrorAlert(title: "Could not create account", msg: "Problem creating account.  Try something else. \(error.debugDescription)")
+                                        
+                                    }
+
+                                } else {
+                                    
+                                    UserDefaults.standard.set(user?.uid, forKey: KEY_UID)
+                                    
+                                    FIRAuth.auth()?.signIn(withEmail: email, password: pwd) { (user, error) in
+                                    
+                                        // This should work, we just created a user
+                                    
+                                    }
+                                    
+                                    self.performSegue(withIdentifier: SEGUE_LOGGED_IN, sender: nil)
+                                    
+                                }
+                                
+                            }
+                            
+                        default:
+                            print("Login User Error: \(error!)")
+                            self.showErrorAlert(title: "Could not login", msg: "Problem loggin into account.  Try something else. \(error.debugDescription)")
+                        }
+                    }
+                    
+                } else {
+                    
+                    self.performSegue(withIdentifier: SEGUE_LOGGED_IN, sender: nil)
+                    
+                }
+                
+            }
+
+        } else {
+            showErrorAlert(title: "Email and Password Required", msg: "You must enter and email and password")
+        }
+        
+    }
+    
+    func showErrorAlert(title: String, msg: String) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
 }
