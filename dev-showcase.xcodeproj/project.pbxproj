@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		94496B3F1E47D78D004FB62E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94496B3E1E47D78D004FB62E /* GoogleService-Info.plist */; };
+		9453E6BC1E4C012E0079DE91 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453E6BB1E4C012E0079DE91 /* FeedVC.swift */; };
+		9453E6BE1E4C02140079DE91 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9453E6BD1E4C02140079DE91 /* PostCell.swift */; };
 		9456D84A1E4A9D3400EA1AAC /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9456D8491E4A9D3400EA1AAC /* DataService.swift */; };
 		94995F561E47D6CF00816F9D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94995F521E47D6CF00816F9D /* Bolts.framework */; };
 		94995F571E47D6CF00816F9D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94995F531E47D6CF00816F9D /* FBSDKCoreKit.framework */; };
@@ -34,6 +36,8 @@
 		500021BFEA21CC299E25C8BE /* Pods-dev-showcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dev-showcase.debug.xcconfig"; path = "Pods/Target Support Files/Pods-dev-showcase/Pods-dev-showcase.debug.xcconfig"; sourceTree = "<group>"; };
 		618DC10F796960E704DA7EAA /* Pods-dev-showcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dev-showcase.release.xcconfig"; path = "Pods/Target Support Files/Pods-dev-showcase/Pods-dev-showcase.release.xcconfig"; sourceTree = "<group>"; };
 		94496B3E1E47D78D004FB62E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9453E6BB1E4C012E0079DE91 /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
+		9453E6BD1E4C02140079DE91 /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		9456D8491E4A9D3400EA1AAC /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		94995F521E47D6CF00816F9D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		94995F531E47D6CF00816F9D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -128,7 +132,6 @@
 				94D76B321E47677800FB4644 /* View */,
 				94D76B311E47676E00FB4644 /* Controller */,
 				94D76B1F1E47675D00FB4644 /* AppDelegate.swift */,
-				94D76B211E47675D00FB4644 /* ViewController.swift */,
 				94D76B231E47675D00FB4644 /* Main.storyboard */,
 				94D76B261E47675D00FB4644 /* Assets.xcassets */,
 				94D76B281E47675D00FB4644 /* LaunchScreen.storyboard */,
@@ -141,6 +144,8 @@
 		94D76B311E47676E00FB4644 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				94D76B211E47675D00FB4644 /* ViewController.swift */,
+				9453E6BB1E4C012E0079DE91 /* FeedVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 				94D76B451E4769A100FB4644 /* MaterialView.swift */,
 				94D76B4A1E476CE200FB4644 /* MaterialButton.swift */,
 				94D76B4C1E47C93800FB4644 /* MaterialTextField.swift */,
+				9453E6BD1E4C02140079DE91 /* PostCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -322,6 +328,8 @@
 				9456D84A1E4A9D3400EA1AAC /* DataService.swift in Sources */,
 				94D76B461E4769A100FB4644 /* MaterialView.swift in Sources */,
 				94D76B221E47675D00FB4644 /* ViewController.swift in Sources */,
+				9453E6BC1E4C012E0079DE91 /* FeedVC.swift in Sources */,
+				9453E6BE1E4C02140079DE91 /* PostCell.swift in Sources */,
 				94D76B201E47675D00FB4644 /* AppDelegate.swift in Sources */,
 				94D76B491E4769F300FB4644 /* Constants.swift in Sources */,
 				94D76B4B1E476CE200FB4644 /* MaterialButton.swift in Sources */,
