@@ -9,6 +9,7 @@ target 'dev-showcase' do
   
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
-
+  pod 'Firebase/Database'
+  pod 'Alamofire', '~> 4.3'
 
 end

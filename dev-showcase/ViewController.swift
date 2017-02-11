@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var emailField: MaterialTextField!
     @IBOutlet weak var passwordField: MaterialTextField!
     
+    var ref: FIRDatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,15 @@ class ViewController: UIViewController {
         // Used in debugging to unset the logged in user
         //UserDefaults.standard.removeObject(forKey: KEY_UID)
         
+        ref = FIRDatabase.database().reference()
+        
     }
 
+    func createFirebaseUser(uid: String, user: Dictionary<String, String>) {
+        ref.child("users").child(uid).setValue(user)
+    }
+
+    
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
@@ -76,6 +84,14 @@ class ViewController: UIViewController {
                     print("Login Failed")
                 } else {
                     print("Logged In! \(user?.uid)")
+                    
+                    if let providerData = user?.providerData, providerData.count > 0 {
+                        
+                        let provider = providerData[0].providerID
+                        let userDict = ["provider": provider]
+                        self.createFirebaseUser(uid: (user?.uid)!, user: userDict)
+                    }
+                    
                     UserDefaults.standard.set(user?.uid, forKey: KEY_UID)
                     self.performSegue(withIdentifier: SEGUE_LOGGED_IN, sender: nil)
                 }
@@ -132,6 +148,15 @@ class ViewController: UIViewController {
                                     FIRAuth.auth()?.signIn(withEmail: email, password: pwd) { (user, error) in
                                     
                                         // This should work, we just created a user
+                                        
+                                        if let providerData = user?.providerData, providerData.count > 0 {
+                                            
+                                            let provider = providerData[0].providerID
+                                            let userDict = ["provider": provider]
+                                            self.createFirebaseUser(uid: (user?.uid)!, user: userDict)
+                                        }
+                                        
+                                        
                                     
                                     }
                                     
