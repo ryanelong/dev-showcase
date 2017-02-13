@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var emailField: MaterialTextField!
     @IBOutlet weak var passwordField: MaterialTextField!
     
-    var ref: FIRDatabaseReference!
+    //var ref: FIRDatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +24,13 @@ class ViewController: UIViewController {
         // Used in debugging to unset the logged in user
         //UserDefaults.standard.removeObject(forKey: KEY_UID)
         
-        ref = FIRDatabase.database().reference()
+        //ref = FIRDatabase.database().reference()
         
     }
 
-    func createFirebaseUser(uid: String, user: Dictionary<String, String>) {
-        ref.child("users").child(uid).setValue(user)
-    }
+//    func createFirebaseUser(uid: String, user: Dictionary<String, String>) {
+//        ref.child("users").child(uid).setValue(user)
+//    }
 
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,7 +89,8 @@ class ViewController: UIViewController {
                         
                         let provider = providerData[0].providerID
                         let userDict = ["provider": provider]
-                        self.createFirebaseUser(uid: (user?.uid)!, user: userDict)
+                        //self.createFirebaseUser(uid: (user?.uid)!, user: userDict)
+                        DataService.ds.createFirebaseUser(uid: (user?.uid)!, user: userDict)
                     }
                     
                     UserDefaults.standard.set(user?.uid, forKey: KEY_UID)
@@ -153,7 +154,8 @@ class ViewController: UIViewController {
                                             
                                             let provider = providerData[0].providerID
                                             let userDict = ["provider": provider]
-                                            self.createFirebaseUser(uid: (user?.uid)!, user: userDict)
+                                            //self.createFirebaseUser(uid: (user?.uid)!, user: userDict)
+                                            DataService.ds.createFirebaseUser(uid: (user?.uid)!, user: userDict)
                                         }
                                         
                                         

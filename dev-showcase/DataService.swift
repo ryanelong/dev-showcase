@@ -9,22 +9,37 @@
 import Foundation
 import Firebase
 
-let URL_BASE = "https://dev-showcase-2e038.firebaseapp.com"
-
+//let URL_BASE = "https://dev-showcase-2e038.firebaseapp.com"
+let URL_BASE = FIRDatabase.database().reference()
 
 class DataService {
     
     static let ds = DataService()
+
+    private var _REF_BASE = URL_BASE
+    private var _REF_POSTS = URL_BASE.child("posts")
+    private var _REF_USERS = URL_BASE.child("users")
+    //private var _REF_USERS_UID = URL_BASE.child("users/uid")
     
-    //private var _REF_BASE = Firebase(url: "\(URL_BASE)")
+    var REF_BASE: FIRDatabaseReference {
+        return _REF_BASE
+    }
     
-//    var ref: FIRDatabaseReference!
-//    
-//    
-//    ref = FIRDatabase.database().reference()
-//    
-//    
-//    func createFirebaseUser(uid: String, user: Dictionary<String, String>) {
-//        ref.child(uid).setValue(user)
-//    }
+    var REF_POSTS: FIRDatabaseReference {
+        return _REF_POSTS
+    }
+    
+    var REF_USERS: FIRDatabaseReference {
+        return _REF_USERS    }
+    
+    var REF_CURRENT_USER: FIRDatabaseReference {
+        let uid = UserDefaults.standard.value(forKey: KEY_UID) as! String
+        let user = _REF_USERS.child(uid)
+        return user
+    }
+    
+    func createFirebaseUser(uid: String, user: Dictionary<String, String>) {
+        REF_USERS.child(uid).setValue(user)
+    }
+    
 }
